@@ -6,7 +6,7 @@ angular.module('LunchCheck', [])
   
 LunchCheckController.$inject = ['$scope'];
 function LunchCheckController($scope) {
-    $scope.response = "Please enter data first"; //default message
+    $scope.response = ""; //default message
 	$scope.lunch = ""; // to hold the user input for lunch entries
 	  
     $scope.determineResponse = function () {
@@ -15,8 +15,9 @@ function LunchCheckController($scope) {
 		// We need to check if the number of elements is greater than 1
 		if (lunch.length > 0) {
 		  $scope.response = responseChecker(lunch);
-		  document.getElementsByClassName('message')[0].className += ' new';
-		}
+
+		} else {
+		  $scope.response = "Please enter data first";	  
 	};
 	
 	// The function to check is the input is a String (might be redundant) and
