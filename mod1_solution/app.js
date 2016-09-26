@@ -15,9 +15,9 @@ function LunchCheckController($scope) {
 		// We need to check if the number of elements is greater than 1
 		if (lunch.length > 0) {
 		  $scope.response = responseChecker(lunch);
-
-		} else {
-		  $scope.response = "Please enter data first";	  
+        } else {
+ 		  $scope.response = "Please enter data first";
+		}
 	};
 	
 	// The function to check is the input is a String (might be redundant) and
@@ -37,7 +37,8 @@ function LunchCheckController($scope) {
 			response = "Enjoy!";
 		} else if (lunchItems.length > 3){
 			response = "Too much!";
-	    } 
+	    } else
+			response = "Please enter data first";
 		
 		return response;
 	}
