@@ -27,27 +27,32 @@
   <h1>Shopping List Check Off</h1>
 
   <div class="row">
-
     <!-- To Buy List -->
-    <div class="col-md-6" ng-controller='as parent'>
+    <div class="col-md-6" ng-controller='ToBuyController as itemAdder'>
      <h2>To Buy:</h2>
      <ul>
-       <li>Buy 10 cookies <button class="btn btn-default"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
-       <li>Buy 10 cookies <button class="btn btn-default"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
-     </ul>
-     <div class="emptyMessage">Everything is bought!</div>
+       <li>Buy 10 cookies <button class="btn btn-default" ng-click="itemAdded.addItem('cookies', '10')"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
+       <li>Buy 5 waffles <button class="btn btn-default" ng-click="itemAdded.addItem('waffles', '5')"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
+	   <li>Buy 10 candies <button class="btn btn-default" ng-click="itemAdded.addItem('candies', '10')"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
+       <li>Buy 3 chocolate <button class="btn btn-default" ng-click="itemAdded.addItem('chocolate', '3')"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
+       <li>Buy 10 puddings <button class="btn btn-default" ng-click="itemAdded.addItem('puddings', '10')"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
+       <li>Buy 7 donuts <button class="btn btn-default" ng-click="itemAdded.addItem('donuts', '7')"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
+    </ul>
+     <div class="emptyMessage" ng-if="false">Everything is bought!</div>
     </div>
 
     <!-- Already Bought List -->
-    <div class="col-md-6" ng-controller='as child'>
+    <div class="col-md-6" ng-controller='AlreadyBoughtController as showList'>
      <h2>Already Bought:</h2>
      <ul>
-       <li>Bought 10 cookies</li>
+       <li ng-repeat="item in showList.items">
+	       Bought {{ item.quantity }} {{ item.name }}
+		   <button ng-click="showList.removeItem($index);">Remove Item</button>
+	   </li>
      </ul>
-     <div class="emptyMessage">Nothing bought yet.</div>
+     <div class="emptyMessage" ng-if="false">Nothing bought yet.</div>
     </div>
   </div>
 </div>
-
 </body>
 </html>
