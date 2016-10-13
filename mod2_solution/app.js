@@ -1,6 +1,37 @@
 (function () {
 'use strict';
-  
+
+    // List of shopping items
+  var toBuyItems = [ 
+        {
+		   name: "cookies",
+		   quantity: "10"
+		}, 
+        { 
+		   name: "waffles",
+		   quantity: "5"
+	    }, 
+		{ 
+		   name: "candies",
+		   quantity: "10" 
+		},
+		
+	    { 
+		   name: "chocolate",
+		   quantity: "3" 
+		}, 
+ 	    { 
+		   name: "puddings", 
+		   quantity: "10" 
+		},
+	    { 
+		   name: "donuts", 
+		   quantity: "7"
+		}
+	];
+
+  var boughtItems = [];
+
 angular.module('ShoppingListCheckOff', [])
 .controller('ToBuyController', ToBuyController)
 .controller('AlreadyBoughtController', AlreadyBoughtController)
@@ -9,12 +40,21 @@ angular.module('ShoppingListCheckOff', [])
 ToBuyController.$inject = ['ShoppingListCheckOffService'];
 function ToBuyController(ShoppingListCheckOffService) {
   var itemAdder = this;
-
-  itemAdder.itemName = "";
-  itemAdder.itemQuantity = "";
-
-  itemAdder.addItem = function () {
-    ShoppingListCheckOffService.addItem(itemAdder.itemName, itemAdder.itemQuantity);
+  
+  itemAdder.items = ShoppingListCheckOffService.getToBuyItems();
+  itemAdder.boughtItems = ShoppingListCheckOffService.getBoughtItems();
+  
+  
+  itemAdder.addItem = function (itemName, itemQuantity) {
+	try {
+       ShoppingListCheckOffService.addBoughtItem(itemName, itemQuantity);
+    } catch (error) {
+       itemAdder.errorMessage = error.message;
+    }
+  }
+  
+  itemAdder.isEmpty = function () {
+	  return itemAdder.items.length === 0;
   }
 }
 
@@ -23,37 +63,50 @@ AlreadyBoughtController.$inject = ['ShoppingListCheckOffService'];
 function AlreadyBoughtController(ShoppingListCheckOffService) {
   var boughtList = this;
 
-  boughtList.items = ShoppingListCheckOffService.getItems();
+  var items = ShoppingListCheckOffService.getBoughtItems();
+  
+  boughtList.items = function () {
+	  return items;
+  }
 
   boughtList.removeItem = function (itemIndex) {
     ShoppingListCheckOffService.removeItem(itemIndex);
   };
+  
+  boughtList.isEmpty = function () {
+	  return items.length === 0;
+  }
 }
-
 
 function ShoppingListCheckOffService() {
   var service = this;
 
-  // List of shopping items
-  var items = [
-     "Cookie", "Waffle", "Candy", "Chocolate", "Pudding", "Donut"
-  ];
+  service.getToBuyItems = function () {
+	  return toBuyItems;
+  }
 
-  service.addItem = function (itemName, quantity) {
-    var item = {
-      name: itemName,
-      quantity: quantity
-    };
-	
-    items.push(item);
+  service.addBoughtItem = function (itemName, quantity) {
+    setTimeout(function () {
+		var item = {
+		  name: itemName,
+		  quantity: quantity
+		};
+		
+		boughtItems.push(item);
+		var num = toBuyItems.findIndex(item);
+		
+		if (num !== -1) {
+		  toBuyItems.splice(num, 1);
+		}
+	}, 1);
   };
 
   service.removeItem = function (itemIndex) {
-    items.splice(itemIndex, 1);
+    boughtItems.splice(itemIndex, 1);
   };
 
-  service.getItems = function () {
-    return items;
+  service.getBoughtItems = function () {
+    return boughtItems;
   };
 }
 

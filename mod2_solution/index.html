@@ -21,8 +21,10 @@
         color: green;
       }
     </style>
+    <script src='angular.min.js'></script>
+	<script src='app.js'></script>
   </head>
-<body ng-app="ShoppingListCheckoff">
+<body ng-app="ShoppingListCheckOff">
   <div class="container">
   <h1>Shopping List Check Off</h1>
 
@@ -31,14 +33,24 @@
     <div class="col-md-6" ng-controller='ToBuyController as itemAdder'>
      <h2>To Buy:</h2>
      <ul>
-       <li>Buy 10 cookies <button class="btn btn-default" ng-click="itemAdded.addItem('cookies', '10')"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
-       <li>Buy 5 waffles <button class="btn btn-default" ng-click="itemAdded.addItem('waffles', '5')"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
-	   <li>Buy 10 candies <button class="btn btn-default" ng-click="itemAdded.addItem('candies', '10')"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
-       <li>Buy 3 chocolate <button class="btn btn-default" ng-click="itemAdded.addItem('chocolate', '3')"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
-       <li>Buy 10 puddings <button class="btn btn-default" ng-click="itemAdded.addItem('puddings', '10')"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
-       <li>Buy 7 donuts <button class="btn btn-default" ng-click="itemAdded.addItem('donuts', '7')"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
+       <li ng-repeat="item in itemAdder.items">
+	      <!-- Buy 10 cookies -->
+		  Buy {{item.quantity}} {{item.name}}
+		  <button class="btn btn-default" ng-click="itemAdder.addItem(item.name, item.quantity)">
+	      <span class="glyphicon glyphicon-ok"></span> Bought</button>
+		</li>
+<!--       <li ng-repeat="item in itemAdder.items">
+	     Buy 5 waffles 
+	   <button class="btn btn-default" ng-click="itemAdded.addItem('waffles', '5')">
+	   <span class="glyphicon glyphicon-ok"></span> Bought</button></li>
+	   <li ng-repeat="item in items">
+	     Buy 10 candies <button class="btn btn-default" ng-click="itemAdder.addItem('candies', '10')">
+	     <span class="glyphicon glyphicon-ok"></span> Bought</button></li>
+       <li ng-repeat="item in items">Buy 3 chocolate <button class="btn btn-default" ng-click="itemAdder.addItem('chocolate', '3')"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
+       <li ng-repeat="item in items">Buy 10 puddings <button class="btn btn-default" ng-click="itemAdder.addItem('puddings', '10')"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
+       <li ng-repeat="item in items" >Buy 7 donuts <button class="btn btn-default" ng-click="itemAdder.addItem('donuts', '7')"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>-->
     </ul>
-     <div class="emptyMessage" ng-if="false">Everything is bought!</div>
+     <div class="emptyMessage" ng-if="itemAdder.items.length === 0">Everything is bought!</div>
     </div>
 
     <!-- Already Bought List -->
@@ -50,7 +62,7 @@
 		   <button ng-click="showList.removeItem($index);">Remove Item</button>
 	   </li>
      </ul>
-     <div class="emptyMessage" ng-if="false">Nothing bought yet.</div>
+     <div class="emptyMessage" ng-if="showList.items.length === 0;">Nothing bought yet.</div>
     </div>
   </div>
 </div>
